@@ -1,15 +1,14 @@
 <?php
 
-@include 'first year/config.php';
+@include 'second year/config.php';
+if(isset($_POST["back"])){
+   header('location:year level.php');
+}
+if(isset($_POST["logout"])){
+   header('location:login.php');
+}
 
-    if(isset($_POST["back"])){
-        header('location:year level.php');
-    }
-    if(isset($_POST["logout"])){
-        header('location:login.php');
-    }
-
-if(isset($_POST['section'])){
+if(isset($_POST['second year'])){
 
    $teacher = $_POST['teacher'];
    $section = $_POST['section'];
@@ -25,45 +24,19 @@ if(isset($_POST['section'])){
    }
 
 };
-if (isset($_POST["submit"])) {
-	$str = $_POST["search"];
-	$sth = $con->prepare("SELECT * FROM `search` WHERE Name = '$str'");
 
-	$sth->setFetchMode(PDO:: FETCH_OBJ);
-	$sth -> execute();
+if(isset($_GET['delete'])){
+   $id = $_GET['delete'];
+   mysqli_query($conn, "DELETE FROM `section a` WHERE id = $id");
+   mysqli_query($conn, "DELETE FROM `section b` WHERE id = $id");
+   mysqli_query($conn, "DELETE FROM `section c` WHERE id = $id");
+   mysqli_query($conn, "DELETE FROM `section d` WHERE id = $id");
+   mysqli_query($conn, "DELETE FROM `section e` WHERE id = $id");
+   mysqli_query($conn, "DELETE FROM `section f` WHERE id = $id");
+   header('location:section.php');
+};
 
-	if($row = $sth->fetch())
-	{
-		?>
-		<br><br><br>
-		<table>
-         <tr>
-            <th>teacher</th>
-            <th>section</th>
-            <th>course</th>
-            <th>course_time</th>
-            <th>room</th>
-         </tr>
-         <tr>
-               <td><?php echo $row['teacher']; ?></td>
-               <td><?php echo $row['section']; ?></td>
-               <td><?php echo $row['course']; ?></td>
-               <td><?php echo $row['course_time']; ?></td>
-               <td><?php echo $row['room']; ?></td>
-
-            </tr>
-
-		</table>
-<?php 
-	}
-		
-		
-		else{
-			echo "Name Does not exist";
-		}
-   }
 ?>
-
 
 
 <!DOCTYPE html>
@@ -74,17 +47,17 @@ if (isset($_POST["submit"])) {
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>admin page</title>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-   <link rel="stylesheet" href="first year/section.css">
+   <link rel="stylesheet" href="first year/section1.css">
 
 </head>
 <body>
    <div class="video-background">
     <video autoplay loop muted>
       <source src="pic/classroom vid.mp4" type="video/mp4">
- 
+      Your browser does not support the video tag.
     </video>
   </div>
- 
+ <H1 style="font-size: 50px;">FIRST SEM</H1>
  <form action="" method="submit">
     <div class="search" style=" margin-left: 50px;"> 
        <div class="search-box">
@@ -101,13 +74,14 @@ if (isset($_POST["submit"])) {
  </form>
   
  </div>
+
   <form action="" method="post">
-     <button class="custom-btn btn-11" name="back"><span>okey😊</span><span>back</span></button>
+     <button class="custom-btn btn-12" name="back"><span>okey😊</span><span>back</span></button>
      <button class="custom-btn btn-12" name="logout"><span>bye😊</span><span>logout</span></button>
   </form>
 
   <form action="" method="post">
-     <div class="box">
+     <div class="box"style="margin-left: 20px;">
          <?php
          
          $select = mysqli_query($conn, "SELECT * FROM `section a`");
@@ -123,6 +97,7 @@ if (isset($_POST["submit"])) {
                <th>course</th>
                <th>course_time</th>
                <th>room</th>
+               
             </tr>
             </thead>
             <?php while($row = mysqli_fetch_assoc($select)){ ?>
@@ -132,16 +107,17 @@ if (isset($_POST["submit"])) {
                <td><?php echo $row['course']; ?></td>
                <td><?php echo $row['course_time']; ?></td>
                <td><?php echo $row['room']; ?></td>
-
+               
             </tr>
          <?php } ?>
          </table><br>
+            
          </div>
 
          <?php      
          $select = mysqli_query($conn, "SELECT * FROM `section b`");
          ?>
-         <div class="display" style="margin-right: 20px;">
+         <div class="display"style="margin-right: 20px;">
          <table class="display-table">
             <H2> SECTION B</H2>
             <thead>
@@ -151,6 +127,7 @@ if (isset($_POST["submit"])) {
                <th>course</th>
                <th>course_time</th>
                <th>room</th>
+             
             </tr>
             </thead>
             <?php while($row = mysqli_fetch_assoc($select)){ ?>
@@ -179,7 +156,7 @@ if (isset($_POST["submit"])) {
                <th>course</th>
                <th>course_time</th>
                <th>room</th>
-
+               
             </tr>
             </thead>
             <?php while($row = mysqli_fetch_assoc($select)){ ?>
@@ -189,7 +166,7 @@ if (isset($_POST["submit"])) {
                <td><?php echo $row['course']; ?></td>
                <td><?php echo $row['course_time']; ?></td>
                <td><?php echo $row['room']; ?></td>
-            
+              
             </tr>
          <?php } ?>
          </table><br>
@@ -209,6 +186,7 @@ if (isset($_POST["submit"])) {
                <th>course</th>
                <th>course_time</th>
                <th>room</th>
+        
             </tr>
             </thead>
             <?php while($row = mysqli_fetch_assoc($select)){ ?>
@@ -218,11 +196,10 @@ if (isset($_POST["submit"])) {
                <td><?php echo $row['course']; ?></td>
                <td><?php echo $row['course_time']; ?></td>
                <td><?php echo $row['room']; ?></td>
-            
+               
             </tr>
          <?php } ?>
          </table><br>
-  
          </div>
          <?php
          
@@ -249,11 +226,11 @@ if (isset($_POST["submit"])) {
                <td><?php echo $row['course']; ?></td>
                <td><?php echo $row['course_time']; ?></td>
                <td><?php echo $row['room']; ?></td>
-         
+              
             </tr>
          <?php } ?>
          </table><br>
-
+          
          </div>
          <?php
          
@@ -270,6 +247,7 @@ if (isset($_POST["submit"])) {
                <th>course</th>
                <th>course_time</th>
                <th>room</th>
+            
             </tr>
             </thead>
             <?php while($row = mysqli_fetch_assoc($select)){ ?>
@@ -279,14 +257,14 @@ if (isset($_POST["submit"])) {
                <td><?php echo $row['course']; ?></td>
                <td><?php echo $row['course_time']; ?></td>
                <td><?php echo $row['room']; ?></td>
-               
+            
             </tr>
          <?php } ?>
          </table><br>
+          
          </div>
       </div>
   </form>
-  
 
   <script>
       const searchBox = document.querySelector(".search-box");
@@ -317,5 +295,6 @@ cancelBtn.onclick =()=>{
       searchInput.value = "";
 }
   </script>
+
 </body>
 </html>
